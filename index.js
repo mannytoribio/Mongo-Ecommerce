@@ -33,7 +33,7 @@ const getUsers = async () => {
     userName: 'Manny'
   })
   return ret.toArray()
-}
+} 
 
 // collection.find(field: { $function })
 // $in [v1, v2, v3, v4] is includes at least one of these values
