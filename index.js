@@ -1,53 +1,54 @@
-import { MongoClient, ObjectId } from "mongodb";
-import dotenv from 'dotenv'
+import dotenv from 'dotenv' //npm i dotenv
+import express from 'express'
+import { ObjectId } from 'mongodb'
+// import functions from 'firebase-functions'
+import { createCustomer, findCustomers, findCustomersById } from './customers.js'
+import { createInventory, findInventory } from './inventory.js'
+import { createTransactions, findTransactions } from './transactions.js'
 
 dotenv.config()
-let _client // underscore makes this private and indicates it should not be used
 
-//the below will create 1 client, if it already exist it just returns it
-const createClient = async () => {
-  if(!_client) {
-    _client = new MongoClient(process.env.MONGO_URL)
-    await _client.connect()
-    }
-  return _client
-};
+const app = express()
+app.use(express.json())
 
 
-const getUserCollection = async () => {
-  const client = await createClient()
-  const db = client.db('mannysFirstDatabase')
-  return db.collection('user')
-}
+app.get('/customers/:id', async (req, res) => {
+  try {
+    const id = new ObjectId(req.params.id)
+    let customer = await findCustomersById(req.body)
+    res.status(200).send(customer)
+  } catch (err) {
+    res.status(500).send(err)
+    console.log(err)
+  }
+})
+
+app.get('/customers/', async (req, res) => {
+  try { 
+    let customer = await findCustomers(req.body)
+    res.status(200).send(customer)
+  } catch (err) {
+    res.status(500).send(err)
+    console.log(err)
+  }
+})
+
+app.post('/customers', async (req, res) => {
+  try {
+    let customer = await createCustomer(req.body)
+    res.status(201).send(customer)
+  } catch (err) {
+    res.status(500).send(err)
+    console.log(err)
+  }
+})
+
+app.get('/inventory/:id', async (req, res) => findInventory)
+app.post('/inventory', async (req, res) => createInventory)
+
+app.get('/transactions:id', async (req, res) => findTransactions)
+app.post('/transactions', async (req, res) => createTransactions)
 
 
-const createUser = async ({userName, dob, email}) => {
-  const userCollection = await getUserCollection()
-  await userCollection.insertOne({userName, dob, email})
-  return {userName, dob, email}
-}
-
-const getUsers = async () => {
-  const userCollection = await getUserCollection()
-  const ret = await userCollection.find({
-    userName: 'Manny'
-  })
-  return ret.toArray()
-} 
-
-// collection.find(field: { $function })
-// $in [v1, v2, v3, v4] is includes at least one of these values
-// $all [v1, v2, v3, v4] must include all
-
-
-const run = async () => {
-  const client = await createClient()
-  await createUser({
-    userName: 'Manny',
-    dob: new Date('09/22/1993'),
-    email: 'test@gmail.com'
-  })
-  await client.close()
-}
-
-run().then()
+app.listen(3000, () => console.log('listening on port 3000'))
+// exports.app = functions.https.onRequest(app)
