@@ -16,5 +16,11 @@ export const createTransactions = async ({customerId, inventoryId, date}) => {
 export const findTransactions = async () => {
   const transactionCollecion = await getTransactionCollection()
   const ret = await transactionCollecion.find({})
-  return ret.toArray()
+  return ret
+}
+
+export const findTransactionById = async () => {
+  const transactionCollecion = await getTransactionCollection()
+  const ret = await transactionCollecion.findOne({id})
+  return ret
 }
