@@ -4,7 +4,7 @@ import { ObjectId } from 'mongodb'
 // import functions from 'firebase-functions'
 import { createCustomer, findCustomers, findCustomersById, updateCutomer } from './src/customers.js'
 import { createInventory, findInventory } from './src/inventory.js'
-import { createTransactions, findTransactions } from './src/transactions.js'
+import { createTransactions, findTransactions, findTransactionById } from './src/transactions.js'
 
 dotenv.config()
 
@@ -57,8 +57,32 @@ app.post('/customers', async (req, res) => {
 app.get('/inventory/:id', async (req, res) => findInventory)
 app.post('/inventory', async (req, res) => createInventory)
 
-app.get('/transactions:id', async (req, res) => findTransactions)
-app.post('/transactions', async (req, res) => createTransactions)
+app.post("/transactions", async (req,res) => {
+  let transaction =  await createTransactions(req.body)
+  try {
+    res.status(201).send(transaction)
+  } catch(err) {
+    res.status(500).send(err)
+  }
+})
+app.get("/transactions", async (req,res) => {
+  try {
+    let transactions =  await findTransactions()
+    res.status(201).send(transactions)
+  } catch(err) {
+    res.status(500).send(err)
+  }
+})
+app.get("/transactions/:id", async (req,res) => {
+  try {
+    let id =  new ObjectId(req.params.id)
+    let transaction =  await findTransactionById(id)
+    res.status(201).send(transaction)
+  } catch(err) {
+    res.status(500).send(err)
+  }
+})
+
 
 
 app.listen(3000, () => console.log('listening on port 3000'))
