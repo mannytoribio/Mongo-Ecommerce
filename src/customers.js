@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb'
 import { createClient } from './client.js'
 
 
@@ -16,7 +15,7 @@ export const createCustomer = async ({custName, phoneNumber, email, address, rep
 
 export const findCustomers = async () => {
   const customerCollection = await getCustomerCollection()
-  const ret = await customerCollection.find({})
+  const ret =  customerCollection.find({})
   // return ret; object single doc
   return ret.toArray()
 }
@@ -24,7 +23,7 @@ export const findCustomers = async () => {
 
 export const findCustomersById = async (id) => {
   const customerCollection = await getCustomerCollection()
-  const ret = await customerCollection.findOne(id)
+  const ret = customerCollection.findOne(id)
   return ret
 }
 
