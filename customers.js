@@ -28,8 +28,14 @@ export const findCustomersById = async (id) => {
   return ret
 }
 
-// export const findCustomersById = async (id) => {
-//   const customerCollection = await getCustomerCollection()
-//   const ret = await customerCollection.findOne(id)
-//   return ret
-// }
+export const updateCutomer = async (id, {custName, phoneNumber, email, address, repeat}) => {
+  const customerCollection = await getCustomerCollection()
+  const ret = await customerCollection.updateOne({_id:id}, {custName, phoneNumber, email, address, repeat})
+  return ret
+}
+
+export const deleteCutomer = async (id) => {
+  const customerCollection = await getCustomerCollection()
+  const ret = await customerCollection.deleteOne({id})
+  return ret
+}
