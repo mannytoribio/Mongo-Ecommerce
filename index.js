@@ -2,9 +2,9 @@ import dotenv from 'dotenv' //npm i dotenv
 import express from 'express'
 import { ObjectId } from 'mongodb'
 // import functions from 'firebase-functions'
-import { createCustomer, findCustomers, findCustomersById, updateCutomer } from './customers.js'
-import { createInventory, findInventory } from './inventory.js'
-import { createTransactions, findTransactions, findTransactionById } from './transactions.js'
+import { createCustomer, findCustomers, findCustomersById, updateCutomer } from './src/customers.js'
+import { createInventory, findInventory } from './src/inventory.js'
+import { createTransactions, findTransactions, findTransactionById } from './src/transactions.js'
 
 dotenv.config()
 
