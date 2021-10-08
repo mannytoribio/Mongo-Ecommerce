@@ -14,8 +14,8 @@ export const createInventory = async ({prodName, prodType, prodPrice, prodColor}
 
 
 export const findInventory = async () => {
-  const inventoryCollection = await getTransactionCollection()
-  const ret = await inventoryCollection.find({})
+  const inventoryCollection = await getInventoryCollection()
+  const ret = inventoryCollection.find({})
   return ret.toArray()
 }
 
@@ -24,3 +24,20 @@ export const findInventory = async () => {
   const ret = await inventoryCollection.delete(inventoryCollection)
   return console.log("Inventory Deletion Complete")
  }*/
+export const findInventoryById = async (id) => {
+  const inventoryCollection = await getInventoryCollection()
+  const ret = inventoryCollection.findOne(id)
+  return ret
+}
+
+export const updateInventory = async (id, {prodName, prodType, prodPrice, prodColor}) => {
+  const inventoryCollection = await getInventoryCollection()
+  const ret = await inventoryCollection.updateOne({_id:id}, {prodName, prodType, prodPrice, prodColor})
+  return ret
+}
+
+export const deleteInventory = async (id) => {
+  const inventoryCollection = await getInventoryCollection()
+  const ret = await inventoryCollection.deleteOne({id})
+  return ret
+}

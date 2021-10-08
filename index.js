@@ -82,6 +82,28 @@ app.post('/inventory', async (req, res) => {
 
 
 
+app.patch('/inventory/:id', async (req, res) => {
+  try {
+    let inventory = updateInventory(id)
+    res.status(200).send(inventory)
+  } catch (err) {
+    res.status(500).send(err)
+    console.log(err)
+  }
+})
+
+
+app.get('/inventory/:id', async (req, res) => {
+  try {
+    let inventory = await findInventory(req.body)
+    res.status(200).send(inventory)
+  } catch (err) {
+    res.status(500).send(err)
+    console.log(err)
+  }
+})
+
+
 
 
 
