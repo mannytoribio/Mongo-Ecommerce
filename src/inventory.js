@@ -18,3 +18,9 @@ export const findInventory = async () => {
   const ret = await inventoryCollection.find({})
   return ret.toArray()
 }
+
+/* export const deleteInventory = async () => {
+  const inventoryCollection = await getTransactionCollection()
+  const ret = await inventoryCollection.delete(inventoryCollection)
+  return console.log("Inventory Deletion Complete")
+ }*/
